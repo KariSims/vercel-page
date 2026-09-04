@@ -1,0 +1,15 @@
+/* ==========================================================================
+   KUMPAX — Polices
+   ==========================================================================
+   Système à 2 polices seulement (voir Guidelines.md > Typographie), toutes
+   deux en Google Fonts — libres d'usage commercial, aucune licence à
+   acheter. Le contraste vient de leur nature (manuscrite/expressive vs.
+   sans-serif neutre), pas d'une troisième police :
+
+   - Titres H1/H2 + wordmark "KumpaX" du header -> Merienda (variable,
+     manuscrite/arrondie, en gras — c'est la police "de marque")
+   - Tout le reste (sous-titres H3/H4, paragraphes, UI/navigation/boutons)
+     -> Inter (variable, neutre et très lisible à toutes les tailles)
+   ========================================================================== */
+
+@import url("https://fonts.googleapis.com/css2?family=Merienda:wght@300..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");

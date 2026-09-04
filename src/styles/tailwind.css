@@ -1,0 +1,214 @@
+@import 'tailwindcss' source(none);
+@source '../**/*.{js,ts,jsx,tsx}';
+
+@import 'tw-animate-css';
+
+/* Micro-interactions: homogenise every existing transition-* utility (hover on
+   buttons, links, cards...) to a soft 300ms instead of Tailwind's 150ms default. */
+@theme {
+  --default-transition-duration: 300ms;
+}
+
+/* Scroll reveal: paired with the <Reveal> wrapper in App.tsx (IntersectionObserver
+   toggles the `reveal-visible` class, no animation library involved). Custom
+   ease-out-expo-ish curve instead of plain ease-out for a more crafted deceleration. */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Témoignages : entrée "flocon" qui se pose — légère rotation par carte
+   (--tilt, alternée en JS) + zoom en plus du fondu/translateY de .reveal,
+   toujours strictement dans la grille (jamais de positionnement absolu) et
+   revenue à 0° une fois visible. Mêmes règles de spécificité/ordre de
+   cascade que .reveal ci-dessus, donc pas besoin de dupliquer la transition
+   ni le garde-fou prefers-reduced-motion (voir plus bas dans ce fichier). */
+.testimonial-card {
+  transform: translateY(24px) rotate(var(--tilt, 0deg)) scale(0.94);
+}
+
+.testimonial-card.reveal-visible {
+  transform: translateY(0) rotate(0deg) scale(1);
+}
+
+/* Carrousel Témoignages : défilement natif (overflow-x-auto + scroll-snap
+   dans App.tsx), scrollbar masquée puisque des flèches pilotent déjà la
+   navigation — la barre native serait redondante et alourdirait le visuel. */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Signature motion — hero map: a signal travels from the Dakar HQ node out to
+   each connected country, echoing "KumpaX connects businesses across Africa"
+   instead of a static illustration. Ambient, continuous, low-key. */
+.map-connection {
+  animation: map-dash-travel 2.4s linear infinite;
+}
+
+.map-ping {
+  animation: map-ping 2.6s cubic-bezier(0.2, 0.6, 0.4, 1) infinite;
+}
+
+@keyframes map-dash-travel {
+  to {
+    stroke-dashoffset: -16;
+  }
+}
+
+@keyframes map-ping {
+  0% {
+    r: 2;
+    opacity: 0.55;
+  }
+  70%, 100% {
+    r: 15;
+    opacity: 0;
+  }
+}
+
+/* "Notre approche" timeline: the gradient connector draws itself in once the
+   section is visible, rather than appearing instantly — echoes the same
+   connective motif as the hero map, this time as a literal progression through
+   6 steps (order genuinely carries meaning here). */
+.approach-line-h {
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;
+}
+
+.approach-line-v {
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;
+}
+
+.reveal-visible .approach-line-h {
+  transform: scaleX(1);
+}
+
+.reveal-visible .approach-line-v {
+  transform: scaleY(1);
+}
+
+/* "Développement & langages" logo strip: translucent, borderless, scrolling
+   marquee instead of a static badge grid. The track renders the list twice —
+   translateX(-50%) is then exactly one full set, so the loop is seamless
+   regardless of how many logos there are. */
+.marquee-mask {
+  -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+}
+
+.marquee-track {
+  animation: marquee-scroll 26s linear infinite;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes marquee-scroll {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Seam banners — oblique dividers between the 4 solutions and into
+   "Prestations" (Odoo services) — see SeamBanner in App.tsx. No banner
+   before Contact (removed 2026-08-19, that section reverted to plain).
+   Deliberately slow — reads as a static graphic that drifts, not a ticker —
+   so durations are far longer than .marquee-track above; a separate class
+   avoids fighting over animation-duration. Each seam gets its own fixed
+   duration (~150-190s) rather than a CSS variable, because an inline custom
+   property would out-specificity the mobile media query below. */
+.seam-marquee-track {
+  animation: marquee-scroll 165s linear infinite;
+}
+
+.seam-1-marquee-track { animation-duration: 153s; }
+.seam-2-marquee-track { animation-duration: 173s; }
+.seam-3-marquee-track { animation-duration: 147s; }
+.seam-4-marquee-track { animation-duration: 187s; }
+
+@media (max-width: 767px) {
+  /* Shorter band on mobile — same crawl speed loops faster, per spec (~120s). */
+  .seam-marquee-track,
+  .seam-1-marquee-track,
+  .seam-2-marquee-track,
+  .seam-3-marquee-track,
+  .seam-4-marquee-track {
+    animation-duration: 120s;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+
+  .map-connection,
+  .map-ping {
+    animation: none;
+  }
+
+  /* Spinner du bouton "Envoyer le message" (état chargement) — boucle infinie,
+     même raison que map-connection/map-ping ci-dessus : le garde-fou global
+     (durée à 0.01ms) ferait clignoter une boucle infinie plutôt que la figer. */
+  .animate-spin {
+    animation: none;
+  }
+
+  .approach-line-h,
+  .approach-line-v {
+    transform: none;
+    transition: none;
+  }
+
+  /* Scrolling logos become a static, wrapped row instead of an infinite loop —
+     the duplicated set (aria-hidden, only there to make the loop seamless) is
+     hidden so logos aren't shown twice. */
+  .marquee-track {
+    animation: none;
+    flex-wrap: wrap;
+    width: auto;
+  }
+
+  .marquee-duplicate {
+    display: none;
+  }
+
+  .marquee-mask {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  /* Seam banners freeze in place (single static line) instead of wrapping —
+     unlike .marquee-track above, these sit inside a fixed-height rotated
+     band where wrapped text would break the layout. */
+  .seam-marquee-track {
+    animation: none;
+  }
+
+  .seam-marquee-duplicate {
+    display: none;
+  }
+
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

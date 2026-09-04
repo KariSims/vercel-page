@@ -1,0 +1,64 @@
+
+  <!DOCTYPE html>
+  <html lang="fr">
+    <head>
+      
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Premium SaaS Showcase Website</title>
+      <meta name="description" content="Showcases KumpaX&#39;s innovative SaaS platforms and Odoo integration services, helping businesses boost productivity with smart, scalable digital solutions." />
+      <link rel="canonical" href="https://kumpax.com/" />
+
+      <!--
+        Favicon généré le 2026-08-27 à partir de public/kumpax-logo.png (le
+        pictogramme seul, sans texte — déjà recadré en PNG transparent, voir
+        CLAUDE.md). .ico multi-résolution (16/32/48) pour la compatibilité
+        large, PNG dédiés pour les navigateurs modernes qui les préfèrent.
+      -->
+      <link rel="icon" href="/favicon.ico" sizes="any" />
+      <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+      <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+      <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+      <!--
+        Le sélecteur FR|EN du header est un toggle 100% client-side (pas de
+        routage par langue, voir src/i18n/) : une seule URL sert les deux
+        langues, donc pas d'alternates hreflang="fr"/"en" légitimes à
+        proposer (ils pointeraient vers la même URL, ce que les moteurs de
+        recherche ignorent). x-default suffit à indiquer qu'il n'y a qu'une
+        version indexable de cette page.
+      -->
+      <link rel="alternate" hreflang="x-default" href="https://kumpax.com/" />
+
+      <!-- Open Graph -->
+      <meta property="og:title" content="KumpaX — Solutions digitales pour entreprises en Afrique" />
+      <meta property="og:description" content="KumpaX conçoit des plateformes digitales innovantes (KumpaX Store, VisitApp, MaxImmo, KumpaCard) et accompagne les entreprises dans leur intégration Odoo, à Dakar et dans toute l'Afrique de l'Ouest et centrale." />
+      <meta property="og:url" content="https://kumpax.com/" />
+      <meta property="og:type" content="website" />
+      <!--
+        TODO og:image : aucune image de marque adaptée (bannière/logo, format recommandé 1200x630px)
+        n'existe dans le projet. src/imports/image.png (876x637px) est une capture d'écran non brandée
+        d'une ancienne variante du formulaire de contact, inutilisée dans le code — impropre à un partage
+        social. Ajouter une image dédiée dans public/ puis décommenter la ligne ci-dessous.
+      <meta property="og:image" content="https://kumpax.com/og-image.png" />
+      -->
+
+      <!-- Twitter Card -->
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="KumpaX — Solutions digitales pour entreprises en Afrique" />
+      <meta name="twitter:description" content="KumpaX conçoit des plateformes digitales innovantes (KumpaX Store, VisitApp, MaxImmo, KumpaCard) et accompagne les entreprises dans leur intégration Odoo, à Dakar et dans toute l'Afrique de l'Ouest et centrale." />
+      <!-- TODO twitter:image : même image manquante que og:image ci-dessus, voir le TODO au-dessus.
+      <meta name="twitter:image" content="https://kumpax.com/og-image.png" />
+      -->
+
+      <style>html, body { height: 100%; margin: 0; } #root { height: 100%; }</style>
+      
+    </head>
+
+    <body>
+      
+      <div id="root"></div>
+      <script type="module" src="/src/main.tsx"></script>
+      
+    </body>
+  </html>
+  
